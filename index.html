@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css" />
+	<!--[if lte IE 8]>
+	    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.ie.css" />
+	<![endif]-->
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+	<title> leaflet example</title>
+
+</head>
+<body>
+	<button onclick="startLocate()">Locate Me</button>
+	<div id="map" style="width: 600px; height: 400px; position: relative;"></div>	
+	 <script>
+
+
+		var field = new Field();
+
+		function createMap (setplace) {
+			var map = L.map('map').setView(setplace, 13);
+
+			L.tileLayer('http://{s}.tile.cloudmade.com/f59941c17eda4947ae395e907fe531a3/997/256/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+			}).addTo(map);
+
+			L.marker(setplace).addTo(map)
+			.bindPopup("<b>I found you :))</b>").openPopup();
+		}
+		function startLocate() {
+		 	if (navigator.geolocation) {
+		 	
+			    navigator.geolocation.getCurrentPosition(function(option) {
+			    	console.log(field);
+			    	console.log(option.coords.latitude);
+			    	console.log(option.coords.longitude);
+			    	field.setValue(option.coords.latitude, option.coords.longitude)
+			    });
+
+			} else {
+
+				alert("Geolocation is not supported by this browser.");
+
+			}
+		}
+
+		function setPosition(position){
+		  	x.innerHTML="Latitude: " + position.coords.latitude + 
+		  	"<br>Longitude: " + position.coords.longitude;	
+		}
+		
+		function Field(){
+		    var latitude 
+		    var longitude 
+		   
+		    this.getValue = function(){
+		    	console.log(latitude)
+		    	console.log(longitude)
+		        return [latitude, longitude];
+		    };
+		   
+		    this.setValue = function(lat_val, long_val){
+		        latitude = lat_val;
+		        longitude = long_val;
+		        console.log(latitude + ' ' + longitude);
+		        createMap (this.getValue())
+		    };
+		}
+
+		function error() {
+		    x.innerHTML = "Unable to retrieve your location";
+		};
+		
+		// L.circle([51.508, -0.11], 500, {
+		// 	color: 'red',
+		// 	fillColor: '#f03',
+		// 	fillOpacity: 0.5
+		// }).addTo(map).bindPopup("I am a circle.");
+
+		// L.polygon([
+		// 	[51.509, -0.08],
+		// 	[51.503, -0.06],
+		// 	[51.51, -0.047]
+		// ]).addTo(map).bindPopup("I am a polygon.");
+
+
+		// var popup = L.popup();
+
+		// function onMapClick(e) {
+		// 	popup
+		// 		.setLatLng(e.latlng)
+		// 		.setContent("You clicked the map at " + e.latlng.toString())
+		// 		.openOn(map);
+		// }
+
+		// map.on('click', onMapClick);
+
+	</script>
+</body>
+</html>

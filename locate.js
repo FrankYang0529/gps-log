@@ -1,18 +1,6 @@
 
 var field = new Field();
 
-function createMap (setplace) {
-	var map = L.map('map').setView(setplace, 13);
-
-	L.tileLayer('http://{s}.tile.cloudmade.com/f59941c17eda4947ae395e907fe531a3/997/256/{z}/{x}/{y}.png', {
-	maxZoom: 18,
-	}).addTo(map);
-
-	L.marker(setplace).addTo(map)
-	.bindPopup("<b>I found you :))</b>").openPopup();
-}
-
-
 function startLocate() {
  	if (navigator.geolocation) {
  	
@@ -25,6 +13,17 @@ function startLocate() {
 		alert("Geolocation is not supported by this browser.");
 
 	}
+}
+
+function createMap (setplace) {
+	var map = L.map('map').setView(setplace, 13);
+
+	L.tileLayer('http://{s}.tile.cloudmade.com/f59941c17eda4947ae395e907fe531a3/997/256/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	}).addTo(map);
+
+	L.marker(setplace).addTo(map)
+	.bindPopup("<b>I found you :))</b>").openPopup();
 }
 
 function Field(){

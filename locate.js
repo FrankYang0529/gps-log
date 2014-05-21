@@ -9,8 +9,7 @@ function startLocate() {
 	    	$("#locate-btn").remove();
 	    	$("#ur-lat").html(option.coords.latitude);
 	    	$("#ur-lng").html(option.coords.longitude);
-	    	$("#info-area").show();
-	    	var locate_height = $("body").height() - $("#info-area").height() - $(".navbar").height();
+	    	var locate_height = $("body").height() - $(".navbar").height();
 	    	$("#locate-btn").css("height", locate_height);
 	    });
 

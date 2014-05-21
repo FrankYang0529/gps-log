@@ -20,31 +20,36 @@
 	<!--[if lte IE 8]>
 	    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.ie.css" />
 	<![endif]-->
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="./index.css" rel="stylesheet">
-	<script src="./locate.js"></script>
 	<script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
 	<title> GPS-Logger</title>
 
 </head>
 <body onload="startLocate()">
-	<div class="navbar">
-		<div class="navbar-inner">
-			<a class="brand" href="#">GPS-Logger</a>
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">GPS-Logger</a>
+			</div>
+			<div class="navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="#" id="info-switch">Information</a></li>
+				</ul>
+			</div>
 		</div>
-	</div>
-	
-
+	</nav>
 	<button class="btn btn-large btn-block btn-primary" onclick="startLocate()" type="button" id="locate-btn">Locate Me</button>
 	<div id="map">
 		<div id="info-area">
-			<h3>GPS logs</h3>
-			<hr>
-			<b>Latitude:</b> <span id="ur-lat"></span><br>
-			<b>Longtitude:</b> <span id="ur-lng"></span>
-		</div>
-
+		<h3>GPS logs</h3>
+		<hr>
+		<b>Latitude:</b> <span id="ur-lat"></span><br>
+		<b>Longtitude:</b> <span id="ur-lng"></span>
 	</div>
-	
+		
+	</div>
+	<script src="./locate.js"></script>
+	<script src="./app.js"></script>
 </body>
 </html>

@@ -34,38 +34,48 @@
 			</div>
 			<div class="navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="#" id="info-switch">Information</a></li>
+					<li id="info-switch"><a href="#" >GPS Information</a></li>
+					<li id="info-log"><a href="#" >Start Logging GPS</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<button class="btn btn-large btn-block btn-primary" onclick="startLocate()" type="button" id="locate-btn">Locate Me</button>
+	<div id="log-area">
+		<h3>GPS Logger</h3>
+		<hr>
+		<button class="btn btn-success" id="start-log">Start Logging</button>
+		<button class="btn btn-danger" id="stop-log">Stop Logging</button>
+		<button class="btn btn-warning" id="reset-log">Reset Logging</button>
+		<div id="logs">
+			
+		</div>
+	</div>
 	<div id="map">
 		<div id="info-area">
-		<h3>GPS logs</h3>
-		<hr>
-		<h5>Current logs: </h5>
-		<ul>
-			<li><b>Latitude:</b> 
-				<span id="ur-lat"></span>
-			</li>
-			<li><b>Longtitude:</b> 
-				<span id="ur-lng"></span>
-			</li>
-			<li><b>Speed:</b>
-				<span id="ur-speed"></span>
-			</li>
-			<li><b>Accuracy: </b>
-				<span id="ur-acc"></span>
-			</li>
-			<li><b>Altitude: </b>
-				<span id="ur-alt"></span>
-			</li>
-		<ul>
-	</div>
+			<h3>GPS logs</h3>
+			<hr>
+			<h5>Current logs: </h5>
+			<ul>
+				<li><b>Latitude:</b> 
+					<span id="ur-lat"></span>
+				</li>
+				<li><b>Longtitude:</b> 
+					<span id="ur-lng"></span>
+				</li>
+				<li><b>Speed:</b>
+					<span id="ur-speed"></span>
+				</li>
+				<li><b>Accuracy: </b>
+					<span id="ur-acc"></span>
+				</li>
+				<li><b>Altitude: </b>
+					<span id="ur-alt"></span>
+				</li>
+			<ul>
+		</div>
 		
 	</div>
-	<script src="./locate.js"></script>
 	<script src="./app.js"></script>
 </body>
 </html>

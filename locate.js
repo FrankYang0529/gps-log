@@ -3,20 +3,29 @@ var field = new Field();
 
 function startLocate() {
  	if (navigator.geolocation) {
- 	
+ 		
 	    navigator.geolocation.getCurrentPosition(function(option) {
 	    	field.setValue(option.coords.latitude, option.coords.longitude);
 	    	$("#locate-btn").remove();
 	    	$("#ur-lat").html(option.coords.latitude);
 	    	$("#ur-lng").html(option.coords.longitude);
+	    	$("#ur-speed").html(option.coords.speed || "Nothing");
+	    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
+	    	$("#ur-alt").html(option.coords.altitude || "Nothing");
 	    	var locate_height = $("body").height() - $(".navbar").height();
 	    	$("#locate-btn").css("height", locate_height);
 	    });
-
+		setInterval(function() {
+			navigator.geolocation.getCurrentPosition(function(option) {
+		    	$("#ur-lat").html(option.coords.latitude);
+		    	$("#ur-lng").html(option.coords.longitude);
+		    	$("#ur-speed").html(option.coords.speed || "Nothing");
+		    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
+		    	$("#ur-alt").html(option.coords.altitude || "Nothing");
+		    });
+		}, 1000);
 	} else {
-
 		alert("Geolocation is not supported by this browser.");
-
 	}
 }
 

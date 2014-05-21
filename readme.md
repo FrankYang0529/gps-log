@@ -1,3 +1,7 @@
-# WhereAmI
+# gps-log
 
-Locate your place in second!
+Logging your GPS in web!
+
+## License
+
+MIT

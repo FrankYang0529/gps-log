@@ -5,7 +5,13 @@ function startLocate() {
  	if (navigator.geolocation) {
  	
 	    navigator.geolocation.getCurrentPosition(function(option) {
-	    	field.setValue(option.coords.latitude, option.coords.longitude)
+	    	field.setValue(option.coords.latitude, option.coords.longitude);
+	    	$("#locate-btn").remove();
+	    	$("#ur-lat").html(option.coords.latitude);
+	    	$("#ur-lng").html(option.coords.longitude);
+	    	$("#info-area").show();
+	    	var locate_height = $("body").height() - $("#info-area").height() - $(".navbar").height();
+	    	$("#locate-btn").css("height", locate_height);
 	    });
 
 	} else {
@@ -16,14 +22,16 @@ function startLocate() {
 }
 
 function createMap (setplace) {
+
 	var map = L.map('map').setView(setplace, 13);
 
-	L.tileLayer('http://{s}.tile.cloudmade.com/f59941c17eda4947ae395e907fe531a3/997/256/{z}/{x}/{y}.png', {
-	maxZoom: 18,
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+	    zoom: 100
 	}).addTo(map);
 
 	L.marker(setplace).addTo(map)
-	.bindPopup("<b>I found you :))</b>").openPopup();
+	.bindPopup("<b>You are here</b>").openPopup();
 }
 
 function Field(){
@@ -31,8 +39,6 @@ function Field(){
     var longitude 
    
     this.getValue = function(){
-    	console.log(latitude)
-    	console.log(longitude)
         return [latitude, longitude];
     };
    

@@ -23,10 +23,14 @@
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="./index.css" rel="stylesheet">
 	<script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css">
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
 	<title> GPS-Logger</title>
 
 </head>
 <body onload="startLocate()">
+	<a id="top"></a>
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -47,8 +51,11 @@
 		<button class="btn btn-success" id="start-log">Start Logging</button>
 		<button class="btn btn-danger" id="stop-log">Stop Logging</button>
 		<button class="btn btn-warning" id="reset-log">Reset Logging</button>
-		<div id="logs">
-			
+		<button class="btn btn-success" id="build-route">Draw in map</button>
+		<a href="#map">
+			<button class="btn btn-warning">Scroll to map</button>
+		</a>
+		<div id="logs">	
 		</div>
 	</div>
 	<div id="map">
@@ -74,8 +81,13 @@
 				</li>
 			<ul>
 		</div>
-		
+		<a href="#top">
+			<div id="toTop">
+				Scroll Top
+			</div>
+		</a>
 	</div>
+	<script src="./LeafletSlider/SliderControl.js"></script>
 	<script src="./app.js"></script>
 </body>
 </html>

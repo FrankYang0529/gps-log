@@ -9,7 +9,7 @@ html, body {
 #map {
 	position: relative;
 	width: 100%;
-	min-height: 100%;
+	min-height: 90%;
 }
 
 #info-area {
@@ -17,7 +17,7 @@ html, body {
 	width: 300px;
 	height: 300px;
 	z-index: 1000;
-	top: 0px;
+	bottom: 0px;
 	right: 0px;
 	padding: 20px;
 	background-color: #FFF;
@@ -51,4 +51,21 @@ html, body {
 
 .navbar-collapse {
 	display: none;
+}
+
+#toTop {
+	position: absolute;
+	z-index: 1000;
+	bottom: 0px;
+	left: 0px;
+	width: 60px;
+	height: 60px;
+	background-color: #FFF;
+	display: none;
+	text-align: center;
+	line-height: 60px;
+}
+
+#leaflet-slider {
+	z-index: 1000;
 }

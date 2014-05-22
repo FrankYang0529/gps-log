@@ -1,6 +1,9 @@
 var field = new Field();
 var setLogging = 0;
 var count = 1;
+var map;
+var point_arr = [];
+var sliderControl = null;
 
 function startLocate() {
  	if (navigator.geolocation) {
@@ -14,8 +17,8 @@ function startLocate() {
 	    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
 	    	$("#ur-alt").html(option.coords.altitude || "Nothing");
 	    	var locate_height = $("body").height() - $(".navbar").height();
-	    	$("#locate-btn").css("height", locate_height);
 	    	$(".navbar-collapse").show();
+	    	$("#toTop").show();
 	    });
 		
 	} else {
@@ -24,8 +27,7 @@ function startLocate() {
 }
 
 function logLocate() {
-	setLogging = setInterval(function() {
-		
+	setLogging = setInterval(function() {	
 		navigator.geolocation.getCurrentPosition(function(option) {
 	    	$("#ur-lat").html(option.coords.latitude);
 	    	$("#ur-lng").html(option.coords.longitude);
@@ -33,7 +35,8 @@ function logLocate() {
 	    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
 	    	$("#ur-alt").html(option.coords.altitude || "Nothing");
 	    	$("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.coords.latitude + "</i>, Longitude: <i>" + option.coords.longitude + "</i>, Speed: <i>" + option.coords.speed + "</i>, Accuracy: <i>" + option.coords.accuracy + "</i>, Altitude: <i>" + option.coords.altitude + "</i></div>")
-	    	count++
+	    	count++;
+	    	point_arr.push({lat: option.coords.latitude, lng: option.coords.longitude, time: new Date()})
 	    });
 	}, 1000);
 }
@@ -46,11 +49,13 @@ function resetLocate() {
 	clearInterval(setLogging);
 	count = 0;
 	$("#logs").empty();
+	point_arr = [];
+	sliderControl.onRemove(map);
 }
 
 function createMap (setplace) {
 
-	var map = L.map('map').setView(setplace, 13);
+	map = L.map('map').setView(setplace, 13);
 
 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -58,6 +63,8 @@ function createMap (setplace) {
 
 	L.marker(setplace).addTo(map)
 	.bindPopup("<b>You are here</b>").openPopup();
+
+	
 }
 
 function Field(){
@@ -113,4 +120,33 @@ $("#reset-log").click(function() {
 	$("#stop-log").hide();
 	$("#start-log").show();
 	resetLocate();
+})
+
+$("#build-route").click(function() {
+	if(sliderControl !== null) {
+		sliderControl.onRemove(map);
+	}
+	var polyline_arr = [];
+	point_arr.forEach(function(point, i) {
+		if(i > 0) {
+			var pointA = new L.LatLng(point_arr[i - 1]["lat"], point_arr[i - 1]["lng"]);
+			var pointB = new L.LatLng(point_arr[i]["lat"], point_arr[i]["lng"]);
+			var pointList = [pointA, pointB];
+
+			var polyline = new L.Polyline(pointList, {
+		      	time: point_arr[i]["time"],
+				color: 'red',
+				weight: 3,
+				opacity: 1,
+				smoothFactor: 1
+			});
+
+			polyline_arr.push(polyline);
+		}
+	})
+	var layerGroup = L.layerGroup(polyline_arr);
+	sliderControl = L.control.sliderControl({position: "topright", layer:layerGroup, follow: true, player: true});
+	map.addControl(sliderControl);
+	sliderControl.startSlider();
+	sliderControl.initPlayer();
 })

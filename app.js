@@ -144,7 +144,7 @@ $("#build-route").click(function() {
 		}
 	})
 	var layerGroup = L.layerGroup(polyline_arr);
-	sliderControl = L.control.sliderControl({position: "topright", layer:layerGroup, follow: true, player: true});
+	sliderControl = L.control.sliderControl({position: "topright", layer:layerGroup, player: true});
 	map.addControl(sliderControl);
 	sliderControl.startSlider();
 	sliderControl.initPlayer();

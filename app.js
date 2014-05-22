@@ -7,7 +7,6 @@ var sliderControl = null;
 
 function startLocate() {
  	if (navigator.geolocation) {
- 		
 	    navigator.geolocation.getCurrentPosition(function(option) {
 	    	field.setValue(option.coords.latitude, option.coords.longitude);
 	    	$("#locate-btn").remove();

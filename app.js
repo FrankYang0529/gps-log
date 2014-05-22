@@ -1,4 +1,3 @@
-
 var field = new Field();
 var setLogging = 0;
 var count = 1;

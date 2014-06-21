@@ -46,9 +46,11 @@ function logLocate() {
 	    	$("#ur-speed").html(option.coords.speed || "Nothing");
 	    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
 	    	$("#ur-alt").html(option.coords.altitude || "Nothing");
-	    	$("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.coords.latitude + "</i>, Longitude: <i>" + option.coords.longitude + "</i>, Speed: <i>" + option.coords.speed + "</i>, Accuracy: <i>" + option.coords.accuracy + "</i>, Altitude: <i>" + option.coords.altitude + "</i>, Id: <i>" + uuid + "</i></div>")
+            var tamp = new Date();
+            var tampStr = tamp.toString();
+	    	$("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.coords.latitude + "</i>, Longitude: <i>" + option.coords.longitude + "</i>, Speed: <i>" + option.coords.speed + "</i>, Accuracy: <i>" + option.coords.accuracy + "</i>, Altitude: <i>" + option.coords.altitude + "</i>, Id: <i>" + uuid + "</i>, Time: <i>" + tampStr + "</div>")
 	    	count++;
-	    	point_arr.push({lat: option.coords.latitude, lng: option.coords.longitude, time: new Date(), id: uuid})
+	    	point_arr.push({lat: option.coords.latitude, lng: option.coords.longitude, time: tampStr, id: uuid})
 	    });
 	}, 1000);
 }

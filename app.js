@@ -164,7 +164,6 @@ $("#build-route").click(function() {
 })
 
 $("#save-btn").click(function() {
-    var point_json = JSON.stringify(point_arr);
-
-    myDataBase.set(point_json);
+    myDataBase.set(point_arr);
+    alert("save success!!");
 })

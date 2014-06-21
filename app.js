@@ -4,6 +4,19 @@ var count = 1;
 var map;
 var point_arr = [];
 var sliderControl = null;
+var guid = (function() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+    }
+    return function() {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+    };
+})();
+var uuid = guid();
+var myDataBase = new Firebase('https://radiant-fire-8687.firebaseio.com/');
 
 function startLocate() {
  	if (navigator.geolocation) {
@@ -19,23 +32,23 @@ function startLocate() {
 	    	$(".navbar-collapse").show();
 	    	$("#toTop").show();
 	    });
-		
+
 	} else {
 		alert("Geolocation is not supported by this browser.");
 	}
 }
 
 function logLocate() {
-	setLogging = setInterval(function() {	
+	setLogging = setInterval(function() {
 		navigator.geolocation.getCurrentPosition(function(option) {
 	    	$("#ur-lat").html(option.coords.latitude);
 	    	$("#ur-lng").html(option.coords.longitude);
 	    	$("#ur-speed").html(option.coords.speed || "Nothing");
 	    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
 	    	$("#ur-alt").html(option.coords.altitude || "Nothing");
-	    	$("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.coords.latitude + "</i>, Longitude: <i>" + option.coords.longitude + "</i>, Speed: <i>" + option.coords.speed + "</i>, Accuracy: <i>" + option.coords.accuracy + "</i>, Altitude: <i>" + option.coords.altitude + "</i></div>")
+	    	$("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.coords.latitude + "</i>, Longitude: <i>" + option.coords.longitude + "</i>, Speed: <i>" + option.coords.speed + "</i>, Accuracy: <i>" + option.coords.accuracy + "</i>, Altitude: <i>" + option.coords.altitude + "</i>, Id: <i>" + uuid + "</i></div>")
 	    	count++;
-	    	point_arr.push({lat: option.coords.latitude, lng: option.coords.longitude, time: new Date()})
+	    	point_arr.push({lat: option.coords.latitude, lng: option.coords.longitude, time: new Date(), id: uuid})
 	    });
 	}, 1000);
 }
@@ -63,17 +76,17 @@ function createMap (setplace) {
 	L.marker(setplace).addTo(map)
 	.bindPopup("<b>You are here</b>").openPopup();
 
-	
+
 }
 
 function Field(){
-    var latitude 
-    var longitude 
-   
+    var latitude
+    var longitude
+
     this.getValue = function(){
         return [latitude, longitude];
     };
-   
+
     this.setValue = function(lat_val, long_val){
         latitude = lat_val;
         longitude = long_val;
@@ -148,4 +161,10 @@ $("#build-route").click(function() {
 	map.addControl(sliderControl);
 	sliderControl.startSlider();
 	sliderControl.initPlayer();
+})
+
+$("#save-btn").click(function() {
+    var point_json = JSON.stringify(point_arr);
+
+    myDataBase.set(point_json);
 })

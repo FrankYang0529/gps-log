@@ -166,6 +166,7 @@ $("#build-route").click(function() {
 })
 
 $("#save-btn").click(function() {
-    myDataBase.set(point_arr);
+    myDataBase.push(point_arr);
+    point_arr = [];
     alert("save success!!");
 })

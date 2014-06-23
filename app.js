@@ -19,7 +19,14 @@ var uuid = guid();
 var myDataBase = new Firebase('https://radiant-fire-8687.firebaseio.com/');
 
 function startLocate() {
- 	if (navigator.geolocation) {
+    if (window.google && google.gears) {
+        try {
+            var geo = google.gears.factory.create('beta.geolocation');
+            geo.getCurrentPosition(successCallback, errorCallback, { enableHighAccuracy: true,gearsRequestAddress: true });
+        } catch(e){
+            alert("Satellite positioning Error!!");
+        }
+    } else if (navigator.geolocation) {
 	    navigator.geolocation.getCurrentPosition(function(option) {
 	    	field.setValue(option.coords.latitude, option.coords.longitude);
 	    	$("#locate-btn").remove();
@@ -38,21 +45,58 @@ function startLocate() {
 	}
 }
 
+function errorCallback(err) {
+    var msg = 'Error retrieving your location: ' + err.message;
+    alert(msg);
+}
+
+function successCallback(option) {
+    field.setValue(option.latitude, option.longitude);
+    $("#locate-btn").remove();
+    $("#ur-lat").html(option.latitude);
+    $("#ur-lng").html(option.longitude);
+    $("#ur-speed").html("Nothing");
+    $("#ur-acc").html("Nothing");
+    $("#ur-alt").html("Nothing");
+    $(".navbar-collapse").show();
+    $("toTop").show();
+}
+
 function logLocate() {
-	setLogging = setInterval(function() {
-		navigator.geolocation.getCurrentPosition(function(option) {
-	    	$("#ur-lat").html(option.coords.latitude);
-	    	$("#ur-lng").html(option.coords.longitude);
-	    	$("#ur-speed").html(option.coords.speed || "Nothing");
-	    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
-	    	$("#ur-alt").html(option.coords.altitude || "Nothing");
-            var tamp = new Date();
-            var tampStr = tamp.toString();
-	    	$("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.coords.latitude + "</i>, Longitude: <i>" + option.coords.longitude + "</i>, Speed: <i>" + option.coords.speed + "</i>, Accuracy: <i>" + option.coords.accuracy + "</i>, Altitude: <i>" + option.coords.altitude + "</i>, Id: <i>" + uuid + "</i>, Time: <i>" + tampStr + "</div>")
-	    	count++;
-	    	point_arr.push({lat: option.coords.latitude, lng: option.coords.longitude, time: tampStr, id: uuid})
-	    });
-	}, 1000);
+    if (window.google && google.gears) {
+        setLogging = setInterval(function() {
+            var geo = google.gears.factory.create('beta.geolocation');
+            geo.getCurrentPosition(successLogging, errorCallback, { enableHighAccuracy: true,gearsRequestAddress: true });
+        }, 1000);
+    } else {
+	    setLogging = setInterval(function() {
+		    navigator.geolocation.getCurrentPosition(function(option) {
+	    	    $("#ur-lat").html(option.coords.latitude);
+	         	$("#ur-lng").html(option.coords.longitude);
+	    	    $("#ur-speed").html(option.coords.speed || "Nothing");
+    	    	$("#ur-acc").html(option.coords.accuracy || "Nothing");
+	        	$("#ur-alt").html(option.coords.altitude || "Nothing");
+                var tamp = new Date();
+                var tampStr = tamp.toString();
+    	    	$("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.coords.latitude + "</i>, Longitude: <i>" + option.coords.longitude + "</i>, Speed: <i>" + option.coords.speed + "</i>, Accuracy: <i>" + option.coords.accuracy + "</i>, Altitude: <i>" + option.coords.altitude + "</i>, Id: <i>" + uuid + "</i>, Time: <i>" + tampStr + "</i></div>");
+	        	count++;
+	        	point_arr.push({lat: option.coords.latitude, lng: option.coords.longitude, time: tampStr, id: uuid})
+    	    });
+	    }, 1000);
+    }
+}
+
+function successLogging(option){
+    $("#ur-lat").html(option.latitude);
+    $("#ur-lng").html(option.longitude);
+    $("#ur-speed").html("Nothing");
+    $("#ur-acc").html("Nothing");
+    $("#ur-alt").html("Nothing");
+    var tamp = new Date();
+    var tampStr = tamp.toString();
+    $("#logs").prepend("<div class='item-log'> <b>#" + count + "</b>: Latitude: <i>" + option.latitude + "</i>, Longitude: <i>" + option.longitude + "</i>, Speed: null, Accuracy: null, Altitude: null, Id: <i>" + uuid + "</i>, Time: <i>" + tampStr + "</i></div>");
+    count++;
+    point_arr.push({lat: option.latitude, lng: option.longitude, time: tampStr, id: uuid});
 }
 
 function cancelLocate() {
